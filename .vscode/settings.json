@@ -1,5 +1,16 @@
 {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
     "cSpell.words": [
-        "blockly"
+        "blockly",
+        "categorystyle",
+        "colour",
+        "Sublist",
+        "حلقه",
+        "رویه",
+        "ریاضیات",
+        "فهرست",
+        "متغیرها",
+        "منطق"
     ]
 }
