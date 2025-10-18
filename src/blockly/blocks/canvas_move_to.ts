@@ -1,6 +1,6 @@
 import { javascriptGenerator, Order } from "blockly/javascript";
 import { CanvasBlockDefinition as CustomBlockDefinition } from "./types";
-import { CANVAS_COORDINATE_TYPE, CANVAS_DRAWING_TYPE } from "../constants";
+import { CANVAS_COORDINATE_TYPE } from "../constants";
 
 export function addBlocklyCanvasMoveToBlock(): CustomBlockDefinition {
   // ─── Setup ───────────────────────────────────────────────────────────
@@ -15,8 +15,8 @@ export function addBlocklyCanvasMoveToBlock(): CustomBlockDefinition {
     helpUrl: "",
     message0: "برو به %1 ",
     args0: [{ type: "input_value", name: "XY", check: CANVAS_COORDINATE_TYPE }],
-    previousStatement: CANVAS_DRAWING_TYPE,
-    nextStatement: CANVAS_DRAWING_TYPE,
+    previousStatement: null,
+    nextStatement: null,
     colour: 300,
   };
 

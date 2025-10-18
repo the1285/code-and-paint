@@ -1,6 +1,5 @@
-import { javascriptGenerator, Order } from "blockly/javascript";
+import { javascriptGenerator } from "blockly/javascript";
 import { CanvasBlockDefinition as CustomBlockDefinition } from "./types";
-import { CANVAS_COORDINATE_TYPE, CANVAS_DRAWING_TYPE } from "../constants";
 
 export function addBlocklyCanvasStrokeBlock(): CustomBlockDefinition {
   // ─── Setup ───────────────────────────────────────────────────────────
@@ -14,8 +13,8 @@ export function addBlocklyCanvasStrokeBlock(): CustomBlockDefinition {
     tooltip: "",
     helpUrl: "",
     message0: "خط ها را رسم کن",
-    previousStatement: CANVAS_DRAWING_TYPE,
-    nextStatement: CANVAS_DRAWING_TYPE,
+    previousStatement: null,
+    nextStatement: null,
     colour: 300,
   };
 

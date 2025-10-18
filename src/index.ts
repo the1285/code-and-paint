@@ -4,8 +4,9 @@ import { javascriptGenerator } from "blockly/javascript";
 import { save, load } from "./blockly/serialization";
 import { generateBlocklyToolbox } from "./blockly/toolbox";
 import "./style/index.css";
-import { appendCanvasFunctionsAndReturnIds } from "./blockly/blocks";
 import { CanvasBridge } from "./canvas/handler";
+import { appendCanvasFunctionsAndReturnIds } from "./blockly/blocks";
+import "./blockly/generator_overrides";
 
 // ─── Creating The Canvas Bridge ────────────────────────────────────────── ✦ ─
 
@@ -52,49 +53,42 @@ const runCode = () => {
   const code = javascriptGenerator.workspaceToCode(
     workspace as Blockly.Workspace
   );
+  // Wrap in an IIFE so each execution gets a fresh scope for generated vars.
+  const wrappedCode = `(function() {\n${code}\n})();`;
   try {
-    eval(code);
+    eval(wrappedCode);
   } catch {
-    console.error(
-      "Failed to run",
-      javascriptGenerator.workspaceToCode(workspace as Blockly.Workspace)
-    );
+    console.error("Failed to run", code);
   }
 };
 
 // ─── Events ────────────────────────────────────────────────────────────── ✦ ─
 
 if (workspace) {
+  workspace.getTheme().setFontStyle({
+    family: "VazirMatn",
+    size: 12,
+    weight: "400",
+  });
+  workspace.setTheme(workspace.getTheme());
+
   try {
     load(workspace);
   } catch {
     console.error("Failed to load the previous state");
   }
 
-  // Every  time  the  workspace changes state,
-  // save the changes to storage.
-  workspace.addChangeListener((e: Blockly.Events.Abstract) => {
-    // UI  events are things like scrolling, zoo-
-    // ming, etc.  No  need  to  save  after  one
-    // of these.
-    if (e.isUiEvent) return;
-    runCode();
-    save(workspace);
-  });
+  // Run once after load so initial state renders even if listeners skip loading events.
+  runCode();
 
-  // Whenever  workspace  changes meaningfully,
-  // run the code again.
   workspace.addChangeListener((e: Blockly.Events.Abstract) => {
-    // Don't  run  the  code  when  the workspace
-    // finishes loading; we're already running it
-    // once  when  the  application starts. Don't
-    // run the code during drags; we  might  have
-    // invalid state.
-    if (
-      e.isUiEvent ||
-      e.type == Blockly.Events.FINISHED_LOADING ||
-      workspace.isDragging()
-    ) {
+    if (e.isUiEvent) {
+      return;
+    }
+
+    save(workspace);
+
+    if (e.type === Blockly.Events.FINISHED_LOADING || workspace.isDragging()) {
       return;
     }
 

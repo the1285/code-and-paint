@@ -1,7 +1,5 @@
-import * as Blockly from "blockly";
 import { javascriptGenerator } from "blockly/javascript";
 import { CanvasBlockDefinition as CustomBlockDefinition } from "./types";
-import { CANVAS_DRAWING_TYPE } from "../constants";
 
 export function addBlocklyCanvasDrawingProviderBlock(): CustomBlockDefinition {
   // ─── Setup ───────────────────────────────────────────────────────────
@@ -13,24 +11,15 @@ export function addBlocklyCanvasDrawingProviderBlock(): CustomBlockDefinition {
   const definition = {
     type: id,
     message0: "بوم نقاشی",
-    nextStatement: CANVAS_DRAWING_TYPE,
     colour: 120,
+    nextStatement: null,
     hat: "cap",
   };
 
   // ─── Code Generator ──────────────────────────────────────────────────
 
-  javascriptGenerator.forBlock[id] = function (block) {
-    const next = block.nextConnection && block.nextConnection.targetBlock();
-
-    if (next) {
-      return `
-        CanvasBridge.setupCanvasSize();
-        ${javascriptGenerator.blockToCode(next)}
-      `;
-    }
-
-    return "";
+  javascriptGenerator.forBlock[id] = function () {
+    return "CanvasBridge.setupCanvasSize();\n";
   };
 
   // ─── Done ────────────────────────────────────────────────────────────

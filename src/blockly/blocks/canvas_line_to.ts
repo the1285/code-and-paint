@@ -1,6 +1,6 @@
 import { javascriptGenerator, Order } from "blockly/javascript";
 import { CanvasBlockDefinition as CustomBlockDefinition } from "./types";
-import { CANVAS_COORDINATE_TYPE, CANVAS_DRAWING_TYPE } from "../constants";
+import { CANVAS_COORDINATE_TYPE } from "../constants";
 
 export function addBlocklyCanvasLineToBlock(): CustomBlockDefinition {
   // ─── Setup ───────────────────────────────────────────────────────────
@@ -21,8 +21,8 @@ export function addBlocklyCanvasLineToBlock(): CustomBlockDefinition {
         check: CANVAS_COORDINATE_TYPE,
       },
     ],
-    previousStatement: CANVAS_DRAWING_TYPE,
-    nextStatement: CANVAS_DRAWING_TYPE,
+    previousStatement: null,
+    nextStatement: null,
     colour: 300,
   };
 

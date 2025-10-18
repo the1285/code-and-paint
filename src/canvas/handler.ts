@@ -25,6 +25,13 @@ export namespace CanvasBridge {
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   }
 
+  // ─── Get Reading For New Drawing ─────────────────────────────────────
+
+  export function getReadyForNewDrawing() {
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+  }
+
   // ─── Line To ─────────────────────────────────────────────────────────
 
   export function moveTo(coordinate: Coordinate) {
