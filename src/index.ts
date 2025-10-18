@@ -38,6 +38,7 @@ const workspace = Blockly.inject(blocklyDiv, {
   toolbox,
   rtl: true,
   toolboxPosition: "start",
+  grid: { spacing: 40, length: 3, colour: "#ccc", snap: true },
   renderer: "zelos",
   move: { scrollbars: true, wheel: true, drag: true },
 });

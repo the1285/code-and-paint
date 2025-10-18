@@ -11,7 +11,7 @@ export function addBlocklyCanvasDrawingProviderBlock(): CustomBlockDefinition {
   const definition = {
     type: id,
     message0: "بوم نقاشی",
-    colour: 120,
+    colour: 30,
     nextStatement: null,
     hat: "cap",
   };
@@ -19,7 +19,7 @@ export function addBlocklyCanvasDrawingProviderBlock(): CustomBlockDefinition {
   // ─── Code Generator ──────────────────────────────────────────────────
 
   javascriptGenerator.forBlock[id] = function () {
-    return "CanvasBridge.setupCanvasSize();\n";
+    return "CanvasBridge.getReadyForNewDrawing();\n";
   };
 
   // ─── Done ────────────────────────────────────────────────────────────

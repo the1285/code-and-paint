@@ -3,9 +3,11 @@
   src: url(Vazirmatn-Regular.woff2);
 }
 
+html,
 body {
   margin: 0;
-  max-width: 100vw;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   font-family: VazirMatn !important;
 }
@@ -15,21 +17,51 @@ code {
   overflow: auto;
 }
 
-canvas {
-  border: 2pt solid black;
-  width: 400pt;
-  height: 400pt;
-}
-
 #pageContainer {
-  display: flex;
-  width: fit-content;
-  max-width: 100vw;
+  position: relative;
+  width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 
 #blockly-div {
-  flex-basis: 100%;
-  height: 100%;
-  min-width: 600px;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+#output-canvas {
+  --canvas-border-width: 2pt;
+  --canvas-size: 400pt;
+  --canvas-minimization-width: 100pt;
+  --canvas-minimization-ratio: calc(
+    var(--canvas-minimization-width) / var(--canvas-size)
+  );
+  --canvas-border-upscaling-ratio: calc(
+    var(--canvas-size) / var(--canvas-minimization-width)
+  );
+
+  border: var(--canvas-border-width) solid #ccc;
+  position: absolute;
+  top: 1cm;
+  left: 1cm;
+  background-color: white;
+  width: var(--canvas-size);
+  height: var(--canvas-size);
+  z-index: 2;
+  transform: scale(100%);
+  transform-origin: top left;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+
+#output-canvas.minimized {
+  border-width: calc(
+    var(--canvas-border-upscaling-ratio) * var(--canvas-border-width)
+  );
+  transform: scale(var(--canvas-minimization-ratio));
+}
+
+#blocklyComputeCanvas {
+  display: none;
 }

@@ -6,12 +6,32 @@ export namespace CanvasBridge {
   let canvas: HTMLCanvasElement;
   let ctx: CanvasRenderingContext2D;
 
+  let expanded = true;
+
   // ─── Constructor ─────────────────────────────────────────────────────
 
   export function initializeCanvasParameters() {
     canvas = document.getElementById("output-canvas") as HTMLCanvasElement;
     ctx = canvas.getContext("2d")!;
     setupCanvasSize();
+    setupEvents();
+  }
+
+  // ─── Setup Events ────────────────────────────────────────────────────
+
+  function setupEvents() {
+    canvas.addEventListener("click", expandOnDeExpandCanvas);
+  }
+
+  // ─── Expand Or De Expand ─────────────────────────────────────────────
+
+  function expandOnDeExpandCanvas() {
+    const name = "minimized";
+    if (canvas.classList.contains(name)) {
+      canvas.classList.remove(name);
+    } else {
+      canvas.classList.add(name);
+    }
   }
 
   // ─── Setup Canvas Size ───────────────────────────────────────────────

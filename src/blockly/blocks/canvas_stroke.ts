@@ -12,7 +12,7 @@ export function addBlocklyCanvasStrokeBlock(): CustomBlockDefinition {
     type: id,
     tooltip: "",
     helpUrl: "",
-    message0: "خط ها را رسم کن",
+    message0: "برای مسیر خط بکش",
     previousStatement: null,
     nextStatement: null,
     colour: 300,
