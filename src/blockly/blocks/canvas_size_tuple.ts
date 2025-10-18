@@ -1,28 +1,34 @@
-import { javascriptGenerator } from "blockly/javascript";
+import { javascriptGenerator, Order } from "blockly/javascript";
 import { CanvasBlockDefinition } from "./types";
-import { CANVAS_BLOCK_COLOR } from "../constants";
+import { CANVAS_SIZE_TYPE } from "../constants";
 
-export function addBlocklyCanvasFillBlock(): CanvasBlockDefinition {
+export function addBlocklyCanvasSizeTupleBlock(): CanvasBlockDefinition {
   // ─── Setup ───────────────────────────────────────────────────────────
 
-  const id = "fill";
+  const id = "size_tuple";
 
   // ─── Block Definition ────────────────────────────────────────────────
 
   const definition = {
     type: id,
-    tooltip: "",
-    helpUrl: "",
-    message0: "مسیر را پر کن",
-    previousStatement: null,
-    nextStatement: null,
-    colour: CANVAS_BLOCK_COLOR,
+    message0: "%1 عرض %2 ارتفاع",
+    args0: [
+      { type: "input_value", name: "WIDTH", check: "Number" },
+      { type: "input_value", name: "HEIGHT", check: "Number" },
+    ],
+    inputsInline: true,
+    output: CANVAS_SIZE_TYPE,
+    colour: 225,
   };
 
   // ─── Code Generator ──────────────────────────────────────────────────
 
-  javascriptGenerator.forBlock[id] = function () {
-    return `CanvasBridge.fill();`;
+  javascriptGenerator.forBlock[id] = function (block) {
+    const width =
+      javascriptGenerator.valueToCode(block, "WIDTH", Order.ATOMIC) || "0";
+    const height =
+      javascriptGenerator.valueToCode(block, "HEIGHT", Order.ATOMIC) || "0";
+    return [`[${width}, ${height}]`, Order.ATOMIC];
   };
 
   // ─── Done ────────────────────────────────────────────────────────────

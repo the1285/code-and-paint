@@ -7,6 +7,8 @@ import "./style/index.css";
 import { CanvasBridge } from "./canvas/handler";
 import { appendCanvasFunctionsAndReturnIds } from "./blockly/blocks";
 import "./blockly/generator_overrides";
+import "./blockly/dropdown_patch";
+import { registerFieldAngle } from "@blockly/field-angle";
 
 // ─── Creating The Canvas Bridge ────────────────────────────────────────── ✦ ─
 
@@ -15,6 +17,8 @@ CanvasBridge.initializeCanvasParameters();
 // ─── Set Farsi ─────────────────────────────────────────────────────────── ✦ ─
 
 Blockly.setLocale(fa);
+
+registerFieldAngle();
 
 // ─── Generate Custom Blocks ────────────────────────────────────────────── ✦ ─
 

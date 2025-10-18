@@ -2,10 +2,10 @@ import { javascriptGenerator } from "blockly/javascript";
 import { CanvasBlockDefinition } from "./types";
 import { CANVAS_BLOCK_COLOR } from "../constants";
 
-export function addBlocklyCanvasFillBlock(): CanvasBlockDefinition {
+export function addBlocklyCanvasBeginPathBlock(): CanvasBlockDefinition {
   // ─── Setup ───────────────────────────────────────────────────────────
 
-  const id = "fill";
+  const id = "begin_path";
 
   // ─── Block Definition ────────────────────────────────────────────────
 
@@ -13,7 +13,7 @@ export function addBlocklyCanvasFillBlock(): CanvasBlockDefinition {
     type: id,
     tooltip: "",
     helpUrl: "",
-    message0: "مسیر را پر کن",
+    message0: "مسیر جدید را شروع کن",
     previousStatement: null,
     nextStatement: null,
     colour: CANVAS_BLOCK_COLOR,
@@ -22,7 +22,7 @@ export function addBlocklyCanvasFillBlock(): CanvasBlockDefinition {
   // ─── Code Generator ──────────────────────────────────────────────────
 
   javascriptGenerator.forBlock[id] = function () {
-    return `CanvasBridge.fill();`;
+    return `CanvasBridge.beginPath();`;
   };
 
   // ─── Done ────────────────────────────────────────────────────────────
