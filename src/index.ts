@@ -38,9 +38,10 @@ const workspace = Blockly.inject(blocklyDiv, {
   toolbox,
   rtl: true,
   toolboxPosition: "start",
+
   grid: { spacing: 40, length: 3, colour: "#ccc", snap: true },
   renderer: "zelos",
-  move: { scrollbars: true, wheel: true, drag: true },
+  move: { scrollbars: true, wheel: false, drag: true },
 });
 
 // ─── Run Code ──────────────────────────────────────────────────────────── ✦ ─
@@ -55,7 +56,10 @@ const runCode = () => {
     workspace as Blockly.Workspace
   );
   // Wrap in an IIFE so each execution gets a fresh scope for generated vars.
-  const wrappedCode = `(function() {\n${code}\n})();`;
+  const wrappedCode = `(function() {
+    CanvasBridge.setupForRedraw();
+    ${code}
+  })();`;
   try {
     eval(wrappedCode);
   } catch {
@@ -79,7 +83,9 @@ if (workspace) {
     console.error("Failed to load the previous state");
   }
 
-  // Run once after load so initial state renders even if listeners skip loading events.
+  // Run  once  after  load  so  initial  state
+  // renders    even    if    listeners    skip
+  // loading events.
   runCode();
 
   workspace.addChangeListener((e: Blockly.Events.Abstract) => {

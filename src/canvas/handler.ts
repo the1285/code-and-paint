@@ -15,6 +15,7 @@ export namespace CanvasBridge {
     ctx = canvas.getContext("2d")!;
     setupCanvasSize();
     setupEvents();
+    canvas.classList.add("initialized");
   }
 
   // ─── Setup Events ────────────────────────────────────────────────────
@@ -47,9 +48,10 @@ export namespace CanvasBridge {
 
   // ─── Get Reading For New Drawing ─────────────────────────────────────
 
-  export function getReadyForNewDrawing() {
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
+  export function setupForRedraw() {
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.width = canvas.width;
   }
 
   // ─── Line To ─────────────────────────────────────────────────────────

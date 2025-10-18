@@ -48,11 +48,15 @@ code {
   background-color: white;
   width: var(--canvas-size);
   height: var(--canvas-size);
-  z-index: 2;
+  z-index: 100;
   transform: scale(100%);
   transform-origin: top left;
-  transition-duration: 0.3s;
+  cursor: zoom-out !important;
+}
+
+#output-canvas.initialized {
   transition-timing-function: ease-in-out;
+  transition-duration: 0.2s;
 }
 
 #output-canvas.minimized {
@@ -60,6 +64,7 @@ code {
     var(--canvas-border-upscaling-ratio) * var(--canvas-border-width)
   );
   transform: scale(var(--canvas-minimization-ratio));
+  cursor: zoom-in !important;
 }
 
 #blocklyComputeCanvas {

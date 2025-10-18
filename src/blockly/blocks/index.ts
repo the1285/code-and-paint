@@ -3,14 +3,12 @@ import { addBlocklyCanvasMoveToBlock } from "./canvas_move_to";
 import { CanvasBlockDefinition } from "./types";
 import * as Blockly from "blockly";
 import { addBlocklyCanvasCoordinateTupleBlock } from "./canvas_tuple";
-import { addBlocklyCanvasDrawingProviderBlock } from "./canvas_canvas";
 import { addBlocklyCanvasLineToBlock } from "./canvas_line_to";
 import { addBlocklyCanvasStrokeBlock } from "./canvas_stroke";
 
 type BlockDefiner = () => CanvasBlockDefinition;
 
 const definers: BlockDefiner[] = [
-  addBlocklyCanvasDrawingProviderBlock,
   addBlocklyCanvasCoordinateTupleBlock,
   addBlocklyCanvasStrokeBlock,
   addBlocklyCanvasLineToBlock,
