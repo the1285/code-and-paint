@@ -13,6 +13,12 @@ import { addBlocklyCanvasFillStyleBlock } from "./canvas_fill_style";
 import { addBlocklyCanvasStrokeStyleBlock } from "./canvas_stroke_style";
 import { addBlocklyCanvasGradientStyleBlock } from "./canvas_gradient_style";
 import { addBlocklyCanvasAngleBlock } from "./canvas_angle";
+import { addBlocklyCanvasColorRgbBlock } from "./canvas_color_rgb";
+import { addBlocklyCanvasColorHslBlock } from "./canvas_color_hsl";
+import { addBlocklyCanvasStrokeSettingsBlock } from "./canvas_stroke_settings";
+import { addBlocklyCanvasTranslateBlock } from "./canvas_translate";
+import { addBlocklyCanvasFontBlock } from "./canvas_font";
+import { addBlocklyCanvasDrawTextBlock } from "./canvas_draw_text";
 
 type BlockDefiner = () => CanvasBlockDefinition;
 
@@ -20,10 +26,16 @@ const definers: BlockDefiner[] = [
   addBlocklyCanvasCoordinateTupleBlock,
   addBlocklyCanvasSizeTupleBlock,
   addBlocklyCanvasAngleBlock,
+  addBlocklyCanvasColorRgbBlock,
+  addBlocklyCanvasColorHslBlock,
   addBlocklyCanvasGradientStyleBlock,
-  addBlocklyCanvasBeginPathBlock,
   addBlocklyCanvasFillStyleBlock,
   addBlocklyCanvasStrokeStyleBlock,
+  addBlocklyCanvasStrokeSettingsBlock,
+  addBlocklyCanvasFontBlock,
+  addBlocklyCanvasDrawTextBlock,
+  addBlocklyCanvasTranslateBlock,
+  addBlocklyCanvasBeginPathBlock,
   addBlocklyCanvasLineToBlock,
   addBlocklyCanvasMoveToBlock,
   addBlocklyCanvasDrawRectBlock,

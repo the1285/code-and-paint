@@ -1,6 +1,7 @@
 export type Coordinate = [number, number];
 export type Size = [number, number];
 export type Style = string | CanvasGradient;
+type Numeric = number | string;
 
 export namespace CanvasBridge {
   // ─── Storage ─────────────────────────────────────────────────────────
@@ -96,6 +97,39 @@ export namespace CanvasBridge {
     ctx.strokeStyle = style;
   }
 
+  export function setLineWidth(width: number) {
+    ctx.lineWidth = width;
+  }
+
+  export function setLineDash(pattern: number[] | unknown) {
+    ctx.setLineDash(Array.isArray(pattern) ? (pattern as number[]) : []);
+  }
+
+  export function setLineCap(cap: CanvasLineCap) {
+    ctx.lineCap = cap;
+  }
+
+  export function setLineJoin(join: CanvasLineJoin) {
+    ctx.lineJoin = join;
+  }
+
+  export function translate(offset: Coordinate | number[] | unknown) {
+    const [x, y] = Array.isArray(offset) ? offset : [0, 0];
+    ctx.translate(Number(x) || 0, Number(y) || 0);
+  }
+
+  export function setFont(size: number, family: string) {
+    ctx.font = `${size}px ${family}`;
+  }
+
+  export function drawText(
+    text: string,
+    position: Coordinate | number[] | unknown
+  ) {
+    const [x, y] = Array.isArray(position) ? position : [0, 0];
+    ctx.fillText(text, Number(x) || 0, Number(y) || 0);
+  }
+
   export function createLinearGradient(
     angleDegrees: number,
     startColour: string,
@@ -121,5 +155,28 @@ export namespace CanvasBridge {
     gradient.addColorStop(1, endColour);
 
     return gradient;
+  }
+
+  function clamp(value: number, min: number, max: number) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function toNumber(value: Numeric) {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+
+  export function colorFromRgb(r: Numeric, g: Numeric, b: Numeric): string {
+    const red = clamp(Math.round(toNumber(r)), 0, 255);
+    const green = clamp(Math.round(toNumber(g)), 0, 255);
+    const blue = clamp(Math.round(toNumber(b)), 0, 255);
+    return `rgb(${red}, ${green}, ${blue})`;
+  }
+
+  export function colorFromHsl(h: Numeric, s: Numeric, l: Numeric): string {
+    const hue = toNumber(h);
+    const saturation = clamp(toNumber(s), 0, 100);
+    const lightness = clamp(toNumber(l), 0, 100);
+    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   }
 }
