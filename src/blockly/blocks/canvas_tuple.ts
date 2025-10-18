@@ -1,10 +1,8 @@
-import { JavascriptGenerator, Order } from "blockly/javascript";
+import { javascriptGenerator, Order } from "blockly/javascript";
 import { CanvasBlockDefinition as CustomBlockDefinition } from "./types";
 import { CANVAS_BLOCK_COLOR, CANVAS_COORDINATE_TYPE } from "../constants";
 
-export function addBlocklyCanvasCoordinateTupleBlock(
-  generator: JavascriptGenerator
-): CustomBlockDefinition {
+export function addBlocklyCanvasCoordinateTupleBlock(): CustomBlockDefinition {
   // ─── Setup ───────────────────────────────────────────────────────────
 
   const id = "coord_tuple";
@@ -25,10 +23,12 @@ export function addBlocklyCanvasCoordinateTupleBlock(
 
   // ─── Code Generator ──────────────────────────────────────────────────
 
-  generator.forBlock[id] = function (block) {
-    const value_x = generator.valueToCode(block, "X", Order.ATOMIC);
-    const value_y = generator.valueToCode(block, "Y", Order.ATOMIC);
-    return `[${value_x}, ${value_y}]`;
+  javascriptGenerator.forBlock[id] = function (block) {
+    const value_x =
+      javascriptGenerator.valueToCode(block, "X", Order.ATOMIC) || "0";
+    const value_y =
+      javascriptGenerator.valueToCode(block, "Y", Order.ATOMIC) || "0";
+    return [`[${value_x}, ${value_y}]`, Order.ATOMIC];
   };
 
   // ─── Done ────────────────────────────────────────────────────────────

@@ -1,52 +1,47 @@
-/**
- * @license
- * Copyright 2023 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import * as Blockly from "blockly";
 import * as fa from "blockly/msg/fa";
-import { blocks } from "./blockly/blocks/text";
-import { forBlock } from "./blockly/generators/javascript";
 import { javascriptGenerator } from "blockly/javascript";
 import { save, load } from "./blockly/serialization";
 import { generateBlocklyToolbox } from "./blockly/toolbox";
 import "./style/index.css";
 import { appendCanvasFunctionsAndReturnIds } from "./blockly/blocks";
+import { CanvasBridge } from "./canvas/handler";
+
+// ─── Creating The Canvas Bridge ────────────────────────────────────────── ✦ ─
+
+CanvasBridge.initializeCanvasParameters();
 
 // ─── Set Farsi ─────────────────────────────────────────────────────────── ✦ ─
 
 Blockly.setLocale(fa);
 
-// ─── Register Main Blocks ──────────────────────────────────────────────── ✦ ─
-
-Blockly.common.defineBlocks(blocks);
-Object.assign(javascriptGenerator.forBlock, forBlock);
-
 // ─── Generate Custom Blocks ────────────────────────────────────────────── ✦ ─
 
-const canvasToolbarIds = appendCanvasFunctionsAndReturnIds(javascriptGenerator);
+const canvasToolbarIds = appendCanvasFunctionsAndReturnIds();
 
 // ─── Toolbox ───────────────────────────────────────────────────────────── ✦ ─
 
 const toolbox = generateBlocklyToolbox(canvasToolbarIds);
 
-// ─── Dom Elements ──────────────────────────────────────────────────────── ✦ ─
+// ─── Setup Blockly Div ─────────────────────────────────────────────────── ✦ ─
 
-// Set up UI elements and inject Blockly
 const blocklyDiv = document.getElementById("blockly-div");
-const outputCanvas = document.getElementById("output-canvas");
 
 if (!blocklyDiv) {
   throw new Error(`div with id 'blocklyDiv' not found`);
 }
-const workspaceSvg = Blockly.inject(blocklyDiv, {
+
+// ─── Setup Workspace ───────────────────────────────────────────────────── ✦ ─
+
+const workspace = Blockly.inject(blocklyDiv, {
   toolbox,
   rtl: true,
-  toolboxPosition: "start", // in RTL, "start" = right side (use "end" for left)
-  renderer: "zelos", // good Arabic-script metrics; "thrasos" also fine
+  toolboxPosition: "start",
+  renderer: "zelos",
   move: { scrollbars: true, wheel: true, drag: true },
 });
+
+// ─── Run Code ──────────────────────────────────────────────────────────── ✦ ─
 
 // This  function  resets the code and output
 // divs, shows the generated  code  from  the
@@ -55,29 +50,41 @@ const workspaceSvg = Blockly.inject(blocklyDiv, {
 // use `eval`.
 const runCode = () => {
   const code = javascriptGenerator.workspaceToCode(
-    workspaceSvg as Blockly.Workspace
+    workspace as Blockly.Workspace
   );
-
-  eval(code);
+  try {
+    eval(code);
+  } catch {
+    console.error(
+      "Failed to run",
+      javascriptGenerator.workspaceToCode(workspace as Blockly.Workspace)
+    );
+  }
 };
 
-if (workspaceSvg) {
-  // Load the initial state from storage and run the code.
-  load(workspaceSvg);
-  runCode();
+// ─── Events ────────────────────────────────────────────────────────────── ✦ ─
+
+if (workspace) {
+  try {
+    load(workspace);
+  } catch {
+    console.error("Failed to load the previous state");
+  }
 
   // Every  time  the  workspace changes state,
   // save the changes to storage.
-  workspaceSvg.addChangeListener((e: Blockly.Events.Abstract) => {
-    // UI events are things like scrolling, zooming, etc.
-    // No need to save after one of these.
+  workspace.addChangeListener((e: Blockly.Events.Abstract) => {
+    // UI  events are things like scrolling, zoo-
+    // ming, etc.  No  need  to  save  after  one
+    // of these.
     if (e.isUiEvent) return;
-    save(workspaceSvg);
+    runCode();
+    save(workspace);
   });
 
   // Whenever  workspace  changes meaningfully,
   // run the code again.
-  workspaceSvg.addChangeListener((e: Blockly.Events.Abstract) => {
+  workspace.addChangeListener((e: Blockly.Events.Abstract) => {
     // Don't  run  the  code  when  the workspace
     // finishes loading; we're already running it
     // once  when  the  application starts. Don't
@@ -86,10 +93,11 @@ if (workspaceSvg) {
     if (
       e.isUiEvent ||
       e.type == Blockly.Events.FINISHED_LOADING ||
-      workspaceSvg.isDragging()
+      workspace.isDragging()
     ) {
       return;
     }
+
     runCode();
   });
 }

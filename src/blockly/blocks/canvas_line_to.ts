@@ -1,36 +1,37 @@
-import * as Blockly from "blockly";
-import { javascriptGenerator } from "blockly/javascript";
+import { javascriptGenerator, Order } from "blockly/javascript";
 import { CanvasBlockDefinition as CustomBlockDefinition } from "./types";
-import { CANVAS_DRAWING_TYPE } from "../constants";
+import { CANVAS_COORDINATE_TYPE, CANVAS_DRAWING_TYPE } from "../constants";
 
-export function addBlocklyCanvasDrawingProviderBlock(): CustomBlockDefinition {
+export function addBlocklyCanvasLineToBlock(): CustomBlockDefinition {
   // ─── Setup ───────────────────────────────────────────────────────────
 
-  const id = "drawing_provider";
+  const id = "line_to";
 
   // ─── Block Definition ────────────────────────────────────────────────
 
   const definition = {
     type: id,
-    message0: "بوم نقاشی",
+    tooltip: "",
+    helpUrl: "",
+    message0: "خط بکش به %1 ",
+    args0: [
+      {
+        type: "input_value",
+        name: "XY",
+        check: CANVAS_COORDINATE_TYPE,
+      },
+    ],
+    previousStatement: CANVAS_DRAWING_TYPE,
     nextStatement: CANVAS_DRAWING_TYPE,
-    colour: 120,
-    hat: "cap",
+    colour: 300,
   };
 
   // ─── Code Generator ──────────────────────────────────────────────────
 
   javascriptGenerator.forBlock[id] = function (block) {
-    const next = block.nextConnection && block.nextConnection.targetBlock();
-
-    if (next) {
-      return `
-        CanvasBridge.setupCanvasSize();
-        ${javascriptGenerator.blockToCode(next)}
-      `;
-    }
-
-    return "";
+    const coordinates =
+      javascriptGenerator.valueToCode(block, "XY", Order.ATOMIC) || "[0, 0]";
+    return `CanvasBridge.lineTo(${coordinates});`;
   };
 
   // ─── Done ────────────────────────────────────────────────────────────

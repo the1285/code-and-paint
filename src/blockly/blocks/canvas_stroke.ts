@@ -1,36 +1,28 @@
-import * as Blockly from "blockly";
-import { javascriptGenerator } from "blockly/javascript";
+import { javascriptGenerator, Order } from "blockly/javascript";
 import { CanvasBlockDefinition as CustomBlockDefinition } from "./types";
-import { CANVAS_DRAWING_TYPE } from "../constants";
+import { CANVAS_COORDINATE_TYPE, CANVAS_DRAWING_TYPE } from "../constants";
 
-export function addBlocklyCanvasDrawingProviderBlock(): CustomBlockDefinition {
+export function addBlocklyCanvasStrokeBlock(): CustomBlockDefinition {
   // ─── Setup ───────────────────────────────────────────────────────────
 
-  const id = "drawing_provider";
+  const id = "stroke";
 
   // ─── Block Definition ────────────────────────────────────────────────
 
   const definition = {
     type: id,
-    message0: "بوم نقاشی",
+    tooltip: "",
+    helpUrl: "",
+    message0: "خط ها را رسم کن",
+    previousStatement: CANVAS_DRAWING_TYPE,
     nextStatement: CANVAS_DRAWING_TYPE,
-    colour: 120,
-    hat: "cap",
+    colour: 300,
   };
 
   // ─── Code Generator ──────────────────────────────────────────────────
 
   javascriptGenerator.forBlock[id] = function (block) {
-    const next = block.nextConnection && block.nextConnection.targetBlock();
-
-    if (next) {
-      return `
-        CanvasBridge.setupCanvasSize();
-        ${javascriptGenerator.blockToCode(next)}
-      `;
-    }
-
-    return "";
+    return `CanvasBridge.stroke();`;
   };
 
   // ─── Done ────────────────────────────────────────────────────────────

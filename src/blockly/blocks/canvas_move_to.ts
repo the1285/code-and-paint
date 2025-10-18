@@ -1,10 +1,8 @@
-import { JavascriptGenerator, Order } from "blockly/javascript";
+import { javascriptGenerator, Order } from "blockly/javascript";
 import { CanvasBlockDefinition as CustomBlockDefinition } from "./types";
 import { CANVAS_COORDINATE_TYPE, CANVAS_DRAWING_TYPE } from "../constants";
 
-export function addBlocklyCanvasMoveToBlock(
-  generator: JavascriptGenerator
-): CustomBlockDefinition {
+export function addBlocklyCanvasMoveToBlock(): CustomBlockDefinition {
   // ─── Setup ───────────────────────────────────────────────────────────
 
   const id = "move_to";
@@ -24,9 +22,10 @@ export function addBlocklyCanvasMoveToBlock(
 
   // ─── Code Generator ──────────────────────────────────────────────────
 
-  generator.forBlock[id] = function (block) {
-    const coordinates = generator.valueToCode(block, "XY", Order.ATOMIC);
-    return `ctx.moveTo(...${coordinates})`;
+  javascriptGenerator.forBlock[id] = function (block) {
+    const coordinates =
+      javascriptGenerator.valueToCode(block, "XY", Order.ATOMIC) || "[0,0]";
+    return `CanvasBridge.moveTo(${coordinates});`;
   };
 
   // ─── Done ────────────────────────────────────────────────────────────
