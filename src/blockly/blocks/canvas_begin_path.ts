@@ -13,7 +13,7 @@ export function addBlocklyCanvasBeginPathBlock(): CanvasBlockDefinition {
     type: id,
     tooltip: "",
     helpUrl: "",
-    message0: "مسیر جدید را شروع کن",
+    message0: "شکل جدید شروع کن",
     previousStatement: null,
     nextStatement: null,
     colour: CANVAS_BLOCK_COLOR,

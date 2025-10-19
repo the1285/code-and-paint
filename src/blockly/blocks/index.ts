@@ -15,6 +15,7 @@ import { addBlocklyCanvasGradientStyleBlock } from "./canvas_gradient_style";
 import { addBlocklyCanvasAngleBlock } from "./canvas_angle";
 import { addBlocklyCanvasColorRgbBlock } from "./canvas_color_rgb";
 import { addBlocklyCanvasColorHslBlock } from "./canvas_color_hsl";
+import { addBlocklyCanvasColorPickerBlock } from "./canvas_color_picker";
 import { addBlocklyCanvasStrokeSettingsBlock } from "./canvas_stroke_settings";
 import { addBlocklyCanvasTranslateBlock } from "./canvas_translate";
 import { addBlocklyCanvasFontBlock } from "./canvas_font";
@@ -26,6 +27,7 @@ const definers: BlockDefiner[] = [
   addBlocklyCanvasCoordinateTupleBlock,
   addBlocklyCanvasSizeTupleBlock,
   addBlocklyCanvasAngleBlock,
+  addBlocklyCanvasColorPickerBlock,
   addBlocklyCanvasColorRgbBlock,
   addBlocklyCanvasColorHslBlock,
   addBlocklyCanvasGradientStyleBlock,

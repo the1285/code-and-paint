@@ -16,7 +16,7 @@ export function addBlocklyCanvasStrokeSettingsBlock(): CanvasBlockDefinition {
     type: id,
     tooltip: "",
     helpUrl: "",
-    message0: "تنظیم خط: ضخامت %1 الگو %2 انتها %3 اتصال %4",
+    message0: "تنظیم قلم دور شکل به: ضخامت %1 الگو %2 انتها %3 اتصال %4",
     args0: [
       { type: "input_value", name: "WIDTH", check: "Number" },
       { type: "input_value", name: "DASH", check: "Array" },
