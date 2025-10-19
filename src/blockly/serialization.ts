@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as Blockly from 'blockly/core';
+import * as Blockly from "blockly/core";
+import { DEMO_WORKSPACE } from "./demo";
 
-const storageKey = 'mainWorkspace';
+const storageKey = "org.1285.canvas-playground.workspace";
 
 /**
  * Saves the state of the workspace to browser's local storage.
@@ -23,10 +24,15 @@ export const save = function (workspace: Blockly.Workspace) {
  */
 export const load = function (workspace: Blockly.Workspace) {
   const data = window.localStorage?.getItem(storageKey);
-  if (!data) return;
+  let loaded;
+  if (!data) {
+    loaded = DEMO_WORKSPACE;
+  } else {
+    loaded = JSON.parse(data);
+  }
 
   // Don't emit events during loading.
   Blockly.Events.disable();
-  Blockly.serialization.workspaces.load(JSON.parse(data), workspace, undefined);
+  Blockly.serialization.workspaces.load(loaded, workspace, undefined);
   Blockly.Events.enable();
 };
